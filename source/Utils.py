@@ -99,7 +99,8 @@ def plot_loss(epochs, loss):
     plt.ylabel('mse loss')
     # plt.title('loss per epoch')
     plt.legend()
-    plt.savefig('loss.png')
+    # plt.savefig('loss.png')
+    plt.show()
 
 # plot the prediction
 def plot_predition(data):
@@ -111,7 +112,9 @@ def plot_predition(data):
     plt.ylabel('counts')
     # plt.title('charge')
     plt.legend()
-    plt.savefig('charge.png')
+    # plt.savefig('charge.png')
+    plt.show()
+
     # plot vtx
     f, ax = plt.subplots()
     ax.hist(np.array(data['true']['vtx']), bins=20, range=(-5.0, 5.0), histtype='step', label='true')
@@ -120,7 +123,9 @@ def plot_predition(data):
     plt.ylabel('counts')
     # plt.title('x')
     plt.legend()
-    plt.savefig('vtx.png')
+    # plt.savefig('vtx.png')
+    plt.show()
+
     # plot vty
     f, ax = plt.subplots()
     ax.hist(np.array(data['true']['vty']), bins=20, range=(-5.0, 5.0), histtype='step', label='true')
@@ -128,7 +133,9 @@ def plot_predition(data):
     plt.xlabel('y [cm]')
     plt.ylabel('counts')
     plt.legend()
-    plt.savefig('vty.png')
+    # plt.savefig('vty.png')
+    plt.show()
+
     # plot vtz
     f, ax = plt.subplots()
     ax.hist(np.array(data['true']['vtz']), bins=20, range=(-800.0, 200.0), histtype='step', label='true')
@@ -136,7 +143,9 @@ def plot_predition(data):
     plt.xlabel('z [cm]')
     plt.ylabel('counts')
     plt.legend()
-    plt.savefig('vtz.png')
+    # plt.savefig('vtz.png')
+    plt.show()
+
     # # plot vpx
     # f, ax = plt.subplots()
     # ax.hist(np.array(data['true']['vpx']), bins=20, range=(-5.0, 5.0), histtype='step', label='true')
