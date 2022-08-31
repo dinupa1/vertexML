@@ -12,7 +12,7 @@ X = [charge, x, y, z, px, py, pz]
 Y = [x, y, z]
 ```
 
-If you want to create a custom data the change the `ProcessData.py` module in the `source-files` directory. Then run the `process_data.sh` file to save the raw data to `.pt` format in the `data/processed` directory.
+If you want to create a custom data the change the `ProcessData.py` module in the `source` directory. Then run the `process_data.sh` file to save the raw data to `.pt` format in the `data/processed` directory.
 
 ## Testing the Module
 
@@ -27,5 +27,5 @@ python3 setup.py install
 
 Alternatively you can use the `pip` to install the module.
 
-You can run the `analysis.ipynb` as example.
+You can run the `analysis.ipynb` as an example.
 
