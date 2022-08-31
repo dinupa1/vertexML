@@ -14,7 +14,7 @@ Y = [x, y, z]
 
 If you want to create a custom data the change the `ProcessData.py` module in the `source` directory. Then run the `process_data.sh` file to save the raw data to `.pt` format in the `data/processed` directory.
 
-## Testing the Module
+### Testing This Module
 
 It is highly recommended to use the [`conda`](https://github.com/conda-forge/miniforge) environment to test this module.
 ```bash
