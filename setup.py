@@ -8,5 +8,5 @@ setup(
     license='MIT',
     author='Dinupa Nawarathne',
     author_email='dinupa3@gmail.com',
-    description='A machine learning approach to find the vertex information of the reconstructed tracks. '
+    description='A machine learning approach to find the vertex information of the reconstructed tracks.'
 )

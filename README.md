@@ -14,5 +14,14 @@ Y = [x, y, z]
 
 If you want to create a custom data the change the `ProcessData.py` module in the `source-files` directory. Then run the `process_data.sh` file to save the raw data to `.pt` format in the `data/processed` directory.
 
-You can find the example notebook in the `notbook` directory.
+## Testing the Module
+
+It is highly recommended to use the [`conda`](https://github.com/conda-forge/miniforge) environment to test this module.
+```bash
+conda env create -f environment.yml
+conda activate vertexML
+python3 setup.py install
+```
+
+You can run the `analysis.ipynb` as example.
 
