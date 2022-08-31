@@ -18,10 +18,14 @@ If you want to create a custom data the change the `ProcessData.py` module in th
 
 It is highly recommended to use the [`conda`](https://github.com/conda-forge/miniforge) environment to test this module.
 ```bash
+git clone https://github.com/dinupa1/vertexML.git
+cd vertexML
 conda env create -f environment.yml
 conda activate vertexML
 python3 setup.py install
 ```
+
+Alternatively you can use the `pip` to install the module.
 
 You can run the `analysis.ipynb` as example.
 

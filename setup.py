@@ -2,8 +2,8 @@ from setuptools import setup
 
 setup(
     name='vertexml',
-    version='0.1-dev',
-    packages=['source-files'],
+    version='0.1.dev0',
+    packages=['source'],
     url='https://github.com/dinupa1/vertexML',
     license='MIT',
     author='Dinupa Nawarathne',
