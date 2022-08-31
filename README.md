@@ -6,7 +6,7 @@ This module is based on the [`particleflow`](https://github.com/jpata/particlefl
 
 
 ## Data Creation
-Raw data was created using the [`SimChainDev`](https://github.com/E1039-Collaboration/e1039-analysis/tree/master/SimChainDev) of the `e1030-analysis` framework. Raw data contains `~20k` Drell-Yan events with `$\mu^{+}$` particles and you can find it in the `data/raw` directory. The structure of the input data is;
+Raw data was created using the [`SimChainDev`](https://github.com/E1039-Collaboration/e1039-analysis/tree/master/SimChainDev) of the `e1030-analysis` framework. Raw data contains `~20k` Drell-Yan events with $\mu^{+}$ particles and you can find it in the `data/raw` directory. The structure of the input data is;
 ```
 X = [charge, x, y, z, px, py, pz]
 Y = [x, y, z]
