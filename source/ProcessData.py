@@ -26,14 +26,21 @@ from torch_geometric.data import Data, Dataset, Batch, download_url
 
 import multiprocessing
 
+# LABELS = {
+#     'X1': ['q1', 'q1'],
+#     'X2': ['x1', 'x2'],
+#     'X3': ['y1', 'y2'],
+#     'X4': ['z1', 'z2'],
+#     'X5': ['px1', 'px2'],
+#     'X6': ['py1', 'py2'],
+#     'X7': ['pz1', 'pz2'],
+#     'Y': ['q2', 'vtx', 'vty', 'vtz', 'vpx', 'vpy', 'vpz']
+# }
+
 LABELS = {
-    'X1': ['q1', 'q1'],
-    'X2': ['x1', 'x2'],
-    'X3': ['y1', 'y2'],
-    'X4': ['z1', 'z2'],
-    'X5': ['px1', 'px2'],
-    'X6': ['py1', 'py2'],
-    'X7': ['pz1', 'pz2'],
+    'X1': ['x1', 'x2', 'px1', 'px2'],
+    'X2': ['y1', 'y2', 'py1', 'py2'],
+    'X3': ['z1', 'z2', 'pz1', 'pz2'],
     'Y': ['vtx', 'vty', 'vtz']
 }
 
@@ -99,9 +106,11 @@ class ProcessData(Dataset):
         batched_data = []
         for i in range(df.shape[0]):
             # print(i)
-            x = np.array([df[LABELS['X1']].values[i], df[LABELS['X2']].values[i], df[LABELS['X3']].values[i],
-                          df[LABELS['X4']].values[i], df[LABELS['X5']].values[i], df[LABELS['X6']].values[i],
-                          df[LABELS['X7']].values[i]])
+            # x = np.array([df[LABELS['X1']].values[i], df[LABELS['X2']].values[i], df[LABELS['X3']].values[i],
+            #               df[LABELS['X4']].values[i], df[LABELS['X5']].values[i], df[LABELS['X6']].values[i],
+            #               df[LABELS['X7']].values[i]])
+
+            x = np.array([df[LABELS['X1']].values[i], df[LABELS['X2']].values[i], df[LABELS['X3']].values[i]])
             y = np.array(df[LABELS['Y']].values[i])
             x = torch.tensor(x, dtype=torch.float)
             # print(x.size())

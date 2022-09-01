@@ -37,8 +37,8 @@ class Net(nn.Module):
         target: tensor containing generated vertex information
     """
 
-    def __init__(self, input_dim=2, output_dim=1, embedding_dim=32, hidden_dim1=126,
-                 hidden_dim2=256, num_conv=3, space_dim=4, propagate_dim=8, k=4):
+    def __init__(self, input_dim=4, output_dim=1, embedding_dim=32, hidden_dim1=126,
+                 hidden_dim2=256, num_conv=3, space_dim=4, propagate_dim=8, k=3):
 
         super(Net, self).__init__()
 

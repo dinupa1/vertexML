@@ -39,8 +39,8 @@ def Train(model, train_loader, optmizer, epoch):
         loss.backward()
         optmizer.step()
         losses.append(loss.item())
-    print('epoch : ', epoch)
-    print('loss : ', np.nanmean(losses))
+    # print('epoch : ', epoch)
+    # print('loss : ', np.nanmean(losses))
     return np.nanmean(losses)
 
 # validation function
@@ -54,8 +54,8 @@ def Validation(model, valid_loader, epoch):
         y, output = data.y, output.squeeze()
         loss = F.mse_loss(output, y)
         losses.append(loss.item())
-    print('epoch : ', epoch)
-    print('loss : ', np.nanmean(losses))
+    # print('epoch : ', epoch)
+    # print('loss : ', np.nanmean(losses))
     return np.nanmean(losses)
 
 # make predictions
@@ -72,16 +72,16 @@ def Predict(model, data, batch_size = 16):
         batch_list = batch.to_data_list()
         for j, event in enumerate(batch_list):
             # target['true']['charge'].append(event.y[0].detach().numpy())
-            target['true']['vtx'].append(event.y[1].detach().numpy())
-            target['true']['vty'].append(event.y[2].detach().numpy())
-            target['true']['vtz'].append(event.y[3].detach().numpy())
+            target['true']['vtx'].append(event.y[0].detach().numpy())
+            target['true']['vty'].append(event.y[1].detach().numpy())
+            target['true']['vtz'].append(event.y[2].detach().numpy())
             # target['true']['vpx'].append(event.y[4].detach().numpy())
             # target['true']['vpy'].append(event.y[5].detach().numpy())
             # target['true']['vpz'].append(event.y[6].detach().numpy())
             # target['prediction']['charge'].append(pred_list[j][0].detach().numpy())
-            target['prediction']['vtx'].append(pred_list[j][1].detach().numpy())
-            target['prediction']['vty'].append(pred_list[j][2].detach().numpy())
-            target['prediction']['vtz'].append(pred_list[j][3].detach().numpy())
+            target['prediction']['vtx'].append(pred_list[j][0].detach().numpy())
+            target['prediction']['vty'].append(pred_list[j][1].detach().numpy())
+            target['prediction']['vtz'].append(pred_list[j][2].detach().numpy())
             # target['prediction']['vpx'].append(pred_list[j][4].detach().numpy())
             # target['prediction']['vpy'].append(pred_list[j][5].detach().numpy())
             # target['prediction']['vpz'].append(pred_list[j][6].detach().numpy())
@@ -92,7 +92,7 @@ def Predict(model, data, batch_size = 16):
 
 # plot the loss
 def plot_loss(epochs, loss):
-    f, ax = plt.subplots()
+    f, ax = plt.subplots(figsize=(7, 7))
     ax.plot(epochs, loss['train'], label='training loss')
     ax.plot(epochs, loss['valid'], label='validation loss')
     plt.xlabel('epoch')
@@ -105,18 +105,18 @@ def plot_loss(epochs, loss):
 # plot the prediction
 def plot_predition(data):
     # plot charge
-    f, ax = plt.subplots()
-    ax.hist(np.array(data['true']['charge']), bins=3, range=(-1.5, 1.5), histtype='step', label='true')
-    ax.hist(np.array(data['prediction']['charge']), bins=3, range=(-1.5, 1.5), histtype='step', label='prediction')
-    plt.xlabel('q')
-    plt.ylabel('counts')
-    # plt.title('charge')
-    plt.legend()
-    # plt.savefig('charge.png')
-    plt.show()
+    # f, ax = plt.subplots()
+    # ax.hist(np.array(data['true']['charge']), bins=3, range=(-1.5, 1.5), histtype='step', label='true')
+    # ax.hist(np.array(data['prediction']['charge']), bins=3, range=(-1.5, 1.5), histtype='step', label='prediction')
+    # plt.xlabel('q')
+    # plt.ylabel('counts')
+    # # plt.title('charge')
+    # plt.legend()
+    # # plt.savefig('charge.png')
+    # plt.show()
 
     # plot vtx
-    f, ax = plt.subplots()
+    f, ax = plt.subplots(figsize=(7, 7))
     ax.hist(np.array(data['true']['vtx']), bins=20, range=(-5.0, 5.0), histtype='step', label='true')
     ax.hist(np.array(data['prediction']['vtx']), bins=20, range=(-5.0, 5.0), histtype='step', label='prediction')
     plt.xlabel('x [cm]')
@@ -127,7 +127,7 @@ def plot_predition(data):
     plt.show()
 
     # plot vty
-    f, ax = plt.subplots()
+    f, ax = plt.subplots(figsize=(7, 7))
     ax.hist(np.array(data['true']['vty']), bins=20, range=(-5.0, 5.0), histtype='step', label='true')
     ax.hist(np.array(data['prediction']['vty']), bins=20, range=(-5.0, 5.0), histtype='step', label='prediction')
     plt.xlabel('y [cm]')
@@ -137,7 +137,7 @@ def plot_predition(data):
     plt.show()
 
     # plot vtz
-    f, ax = plt.subplots()
+    f, ax = plt.subplots(figsize=(7, 7))
     ax.hist(np.array(data['true']['vtz']), bins=20, range=(-800.0, 200.0), histtype='step', label='true')
     ax.hist(np.array(data['prediction']['vtz']), bins=20, range=(-800.0, 200.0), histtype='step', label='prediction')
     plt.xlabel('z [cm]')
@@ -171,7 +171,7 @@ def plot_predition(data):
     # plt.legend()
     # plt.savefig('vpz.png')
     # plot res_vtx
-    f, ax = plt.subplots()
+    f, ax = plt.subplots(figsize=(7, 7))
     res_vtx = np.array(data['true']['vtx']) - np.array(data['prediction']['vtx'])
     ax.hist(res_vtx, bins=20, range=(-5.0, 5.0), histtype='step')
     plt.xlabel(r'$\Delta x$ [cm]')
@@ -179,7 +179,7 @@ def plot_predition(data):
     # plt.legend()
     plt.savefig('res_vtx.png')
     # plot res_vty
-    f, ax = plt.subplots()
+    f, ax = plt.subplots(figsize=(7, 7))
     res_vty = np.array(data['true']['vty']) - np.array(data['prediction']['vty'])
     ax.hist(res_vty, bins=20, range=(-5.0, 5.0), histtype='step')
     plt.xlabel(r'$\Delta y$ [cm]')
@@ -187,7 +187,7 @@ def plot_predition(data):
     # plt.legend()
     plt.savefig('res_vty.png')
     # plot res_vtz
-    f, ax = plt.subplots()
+    f, ax = plt.subplots(figsize=(7, 7))
     res_vtz = np.array(data['true']['vtz']) - np.array(data['prediction']['vtz'])
     ax.hist(res_vtz, bins=20, range=(-800.0, 200.0), histtype='step')
     plt.xlabel(r'$\Delta z$ [cm]')
