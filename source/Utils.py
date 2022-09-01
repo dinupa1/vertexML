@@ -177,7 +177,8 @@ def plot_predition(data):
     plt.xlabel(r'$\Delta x$ [cm]')
     plt.ylabel('counts')
     # plt.legend()
-    plt.savefig('res_vtx.png')
+    # plt.savefig('res_vtx.png')
+    plt.show()
     # plot res_vty
     f, ax = plt.subplots(figsize=(7, 7))
     res_vty = np.array(data['true']['vty']) - np.array(data['prediction']['vty'])
@@ -185,7 +186,8 @@ def plot_predition(data):
     plt.xlabel(r'$\Delta y$ [cm]')
     plt.ylabel('counts')
     # plt.legend()
-    plt.savefig('res_vty.png')
+    # plt.savefig('res_vty.png')
+    plt.show()
     # plot res_vtz
     f, ax = plt.subplots(figsize=(7, 7))
     res_vtz = np.array(data['true']['vtz']) - np.array(data['prediction']['vtz'])
@@ -193,7 +195,8 @@ def plot_predition(data):
     plt.xlabel(r'$\Delta z$ [cm]')
     plt.ylabel('counts')
     # plt.legend()
-    plt.savefig('res_vtz.png')
+    # plt.savefig('res_vtz.png')
+    plt.show()
     # # plot res_vpx
     # f, ax = plt.subplots()
     # res_vpx = np.array(data['true']['vpx']) - np.array(data['prediction']['vpx'])
