@@ -10,3 +10,17 @@ slides/
 build/
 dist/
 vertexml.egg-info/
+loss-mlp.png
+vpx-mlp.png
+vpy-mlp.png
+vpz-mlp.png
+vtx-mlp.png
+vty-mlp.png
+vtz-mlp.png
+dnn1_2.png
+dnn1_4.png
+dnn1_6.png
+dnn2_2.png
+vtz_vpx.png
+vtz_vpy.png
+vtz_vpz.png
