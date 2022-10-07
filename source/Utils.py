@@ -36,6 +36,7 @@ def Train(model, train_loader, optmizer, epoch):
         output = model(data)
         y, output = data.y, output.squeeze(1)
         loss = F.mse_loss(output, y)
+        loss = loss/N
         loss.backward()
         optmizer.step()
         losses.append(loss.item())
@@ -53,6 +54,7 @@ def Validation(model, valid_loader, epoch):
         output = model(data)
         y, output = data.y, output.squeeze()
         loss = F.mse_loss(output, y)
+        loss = loss/N
         losses.append(loss.item())
     # print('epoch : ', epoch)
     # print('loss : ', np.nanmean(losses))
@@ -99,7 +101,7 @@ def plot_loss(epochs, loss):
     plt.ylabel('mse loss')
     # plt.title('loss per epoch')
     plt.legend()
-    # plt.savefig('loss.png')
+    plt.savefig('loss.png')
     plt.show()
 
 # plot the prediction
@@ -123,7 +125,7 @@ def plot_predition(data):
     plt.ylabel('counts')
     # plt.title('x')
     plt.legend()
-    # plt.savefig('vtx.png')
+    plt.savefig('vtx.png')
     plt.show()
 
     # plot vty
@@ -133,7 +135,7 @@ def plot_predition(data):
     plt.xlabel('y [cm]')
     plt.ylabel('counts')
     plt.legend()
-    # plt.savefig('vty.png')
+    plt.savefig('vty.png')
     plt.show()
 
     # plot vtz
@@ -143,7 +145,7 @@ def plot_predition(data):
     plt.xlabel('z [cm]')
     plt.ylabel('counts')
     plt.legend()
-    # plt.savefig('vtz.png')
+    plt.savefig('vtz.png')
     plt.show()
 
     # # plot vpx
