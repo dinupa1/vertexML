@@ -37,19 +37,19 @@ class Net(nn.Module):
         target: tensor containing generated vertex information
     """
 
-    def __init__(self, input_dim=4, output_dim=1, embedding_dim=32, hidden_dim1=126,
-                 hidden_dim2=256, num_conv=3, space_dim=4, propagate_dim=8, k=3):
+    def __init__(self, input_dim=4, output_dim=1, embedding_dim=8, hidden_dim1=10,
+                 hidden_dim2=16, num_conv=1, space_dim=4, propagate_dim=8, k=3):
 
         super(Net, self).__init__()
 
-        self.act = nn.ELU
+        self.act = nn.ReLU
 
         # (1) DNN: embedding
         self.dnn1 = nn.Sequential(
             nn.Linear(input_dim, hidden_dim1),
             self.act(),
-            nn.Linear(hidden_dim1, hidden_dim1),
-            self.act(),
+            # nn.Linear(hidden_dim1, hidden_dim1),
+            # self.act(),
             nn.Linear(hidden_dim1, hidden_dim1),
             self.act(),
             nn.Linear(hidden_dim1, embedding_dim),
@@ -64,8 +64,8 @@ class Net(nn.Module):
         self.dnn2 = nn.Sequential(
             nn.Linear(input_dim+embedding_dim, hidden_dim2),
             self.act(),
-            nn.Linear(hidden_dim2, hidden_dim2),
-            self.act(),
+            # nn.Linear(hidden_dim2, hidden_dim2),
+            # self.act(),
             nn.Linear(hidden_dim2, hidden_dim2),
             self.act(),
             nn.Linear(hidden_dim2, output_dim),
@@ -105,7 +105,7 @@ class GravNetConv_vtx(MessagePassing):
     """
 
     def __init__(self, in_channels: int, out_channels: int, space_dimensions: int,
-                 propagate_dimensions: int, k:int, num_workers: int = 1, **kwargs):
+                 propagate_dimensions: int, k: int, num_workers: int = 1, **kwargs):
         super().__init__(flow='source_to_target', **kwargs)
 
         self.in_channels = in_channels
