@@ -77,15 +77,15 @@ void data::print()
       int ntracks = trk_reco->size();
       for(int j = 0; j < ntracks; j++)
       {
-        if(trk_reco->at(j).charge == +1)
-        {
+        //if(trk_reco->at(j).charge == +1)
+        //{
           out_file << trk_reco->at(j).charge << "," << trk_reco->at(j).pos_st1.X() << "," << trk_reco->at(j).pos_st1.Y() << "," << trk_reco->at(j).pos_st1.Z()
         << "," << trk_reco->at(j).mom_st1.Px() << "," << trk_reco->at(j).mom_st1.Py() << "," << trk_reco->at(j).mom_st1.Pz() << ","
         << trk_reco->at(j).pos_st3.X() << "," << trk_reco->at(j).pos_st3.Y() << "," << trk_reco->at(j).pos_st3.Z()
         << "," << trk_reco->at(j).mom_st3.Px() << "," << trk_reco->at(j).mom_st3.Py() << "," << trk_reco->at(j).mom_st3.Pz() << ","
         << trk_true->at(j).charge << "," << trk_true->at(j).pos_vtx.X() << "," << trk_true->at(j).pos_vtx.Y() << "," << trk_true->at(j).pos_vtx.Z()
         << "," << trk_true->at(j).mom_vtx.Px() << "," << trk_true->at(j).mom_vtx.Py() << "," << trk_true->at(j).mom_vtx.Pz() << endl;
-        }
+        //}
       }
     }
   }
