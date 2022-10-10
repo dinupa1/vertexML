@@ -71,28 +71,28 @@ X_train = scaler.fit_transform(X_train)
 X_valid = scaler.transform(X_valid)
 X_test = scaler.transform(X_test)
 
-print(X_test.shape)
-print(y_test.shape)
+# print(X_test.shape)
+# print(y_test.shape)
 
 """
 Classification using sklearn MLPClassifier
 info https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPClassifier.html
 """
 
-# clf = MLPClassifier(max_iter=300)
-# clf.fit(X_train, y_train)
-# score = clf.score(X_test, y_test)
-# print("prediction score = {}".format(score))
-#
-# y_pred = clf.predict(X_test)
-# y_pred_deco = np.argmax(y_pred, axis=1)
-# y_test_deco = np.argmax(y_test, axis=1)
-#
-# plt.hist(y_test_deco, histtype='step', label='test')
-# plt.hist(y_pred_deco, histtype='step', label='pred')
-# plt.legend()
-# plt.yscale('log')
-# plt.show()
+clf = MLPClassifier(max_iter=300, hidden_layer_sizes=(32, 32, 32), batch_size=64)
+clf.fit(X_train, y_train)
+score = clf.score(X_test, y_test)
+print("prediction score = {}".format(score))
+
+y_pred = clf.predict(X_test)
+y_pred_deco = np.argmax(y_pred, axis=1)
+y_test_deco = np.argmax(y_test, axis=1)
+
+plt.hist(y_test_deco, histtype='step', label='test')
+plt.hist(y_pred_deco, histtype='step', label='pred')
+plt.legend()
+plt.yscale('log')
+plt.show()
 
 """
 using pytorch we build a neural network for regression
@@ -108,13 +108,16 @@ class vertexTagger(torch.nn.Module):
         self.fc1 = torch.nn.Linear(in_features, hidden_dim, bias=True)
         self.fc2 = torch.nn.Linear(hidden_dim, hidden_dim, bias=True)
         self.fc3 = torch.nn.Linear(hidden_dim, hidden_dim, bias=True)
-        self.fc4 = torch.nn.Linear(hidden_dim, out_features, bias=True)
+        self.fc4 = torch.nn.Linear(hidden_dim, hidden_dim, bias=True)
+        self.fc5 = torch.nn.Linear(hidden_dim, out_features, bias=True)
 
     def forward(self, x):
         x = F.relu(self.fc1(x))
         x = F.relu(self.fc2(x))
         x = F.relu(self.fc3(x))
-        x = F.softmax(self.fc4(x), dim=-1)
+        x = F.relu(self.fc4(x))
+        # x = F.softmax(self.fc5(x), dim=-1)
+        x = F.relu(self.fc5(x))
         return x
 
 
@@ -141,7 +144,7 @@ class AverageMeter(object):
         return fmtstr.format(**self.__dict__)
 
 
-batch_size = 1024
+batch_size = 64
 
 train_dataset = TensorDataset(torch.Tensor(X_train), torch.Tensor(y_train))
 train_dataloader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
@@ -152,7 +155,7 @@ val_dataloader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False)
 net = vertexTagger(hidden_dim=32)
 
 criterion = torch.nn.CrossEntropyLoss()
-optimizer = torch.optim.SGD(net.parameters(), lr=0.1)
+optimizer = torch.optim.Adam(net.parameters(), lr=0.001)
 epochs = 20
 
 
@@ -233,7 +236,7 @@ def draw_loss(data_train, data_val, data_acc, label="Loss"):
     fig, ax1 = plt.subplots()
     ax1.set_xlabel("Epoch", horizontalalignment='right', x=1.0)
     ax1.set_ylabel("Loss", horizontalalignment='right', y=1.0)
-    ax1.set_yscale('log')
+    # ax1.set_yscale('log')
     ax1.tick_params(axis='y', labelcolor='red')
     ax1.plot(data_train,
              color='red',
@@ -265,26 +268,27 @@ print("Accuracy for the test set: {0:.2f}".format(
 ))
 
 plt.hist(torch.argmax(y_pred, dim=-1).squeeze().numpy())
+plt.yscale('log')
 plt.show()
-# plt.hist(np.argmax(y_test, axis=1), histtype='step', label='test')
-# plt.hist(torch.argmax(y_pred, dim=-1).squeeze().numpy(), histtype='step', label='pred')
-# plt.legend()
-# plt.yscale('log')
-# plt.show()
+plt.hist(np.argmax(y_test, axis=1), histtype='step', label='test')
+plt.hist(torch.argmax(y_pred, dim=-1).squeeze().numpy(), histtype='step', label='pred')
+plt.legend()
+plt.yscale('log')
+plt.show()
 
-# from sklearn.metrics import roc_curve, auc
-#
-# def plot_roc(y_test, y_pred, labels):
-#     for x, label in enumerate(labels):
-#         fpr, tpr, _ = roc_curve(y_test[:, x], y_pred[:, x])
-#         plt.plot(tpr, fpr, label='{0} tagger, AUC = {1:.1f}'.format(label, auc(fpr, tpr) * 100.), linestyle='-')
-#     plt.semilogy()
-#     plt.xlabel("Signal Efficiency")
-#     plt.ylabel("Background Efficiency")
-#     plt.ylim(0.001, 1)
-#     plt.grid(True)
-#     plt.legend(loc='upper left')
-#     plt.show()
-#
-# plt.figure(figsize=(5, 5))
-# plot_roc(y_test, y_pred.squeeze().detach().numpy(), ohe.categories_)
+from sklearn.metrics import roc_curve, auc
+
+def plot_roc(y_test, y_pred, labels):
+    for x, label in enumerate(labels):
+        fpr, tpr, _ = roc_curve(y_test[:, x], y_pred[:, x])
+        plt.plot(tpr, fpr, label='{0} tagger, AUC = {1:.1f}'.format(label, auc(fpr, tpr) * 100.), linestyle='-')
+    plt.semilogy()
+    plt.xlabel("Signal Efficiency")
+    plt.ylabel("Background Efficiency")
+    plt.ylim(0.001, 1)
+    plt.grid(True)
+    plt.legend(loc='upper left')
+    plt.show()
+
+plt.figure(figsize=(5, 5))
+plot_roc(y_test, y_pred.squeeze().detach().numpy(), ohe.categories_)
