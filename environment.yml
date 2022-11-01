@@ -3,7 +3,8 @@ channels:
   -pytorch
   -conda-forge
 dependencies:
-  -pytorch
-  -uproot
-  -matplotlib
-  -pandas
+  -pytorch==1.12.1
+  -numpy==1.23.4
+  -matplotlib==3.5.3
+  -pandas==1.5.0
+  -uproot==4.3.7
