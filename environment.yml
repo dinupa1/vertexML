@@ -1,0 +1,9 @@
+name: vertexml
+channels:
+  -pytorch
+  -conda-forge
+dependencies:
+  -pytorch
+  -uproot
+  -matplotlib
+  -pandas
