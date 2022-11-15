@@ -17,7 +17,7 @@ It is highly recommended to use the [`conda`](https://github.com/conda-forge/min
 git clone https://github.com/dinupa1/vertexML.git
 cd vertexML
 conda env create -f environment.yml
-conda activate vertexML
+conda activate vertexml
 ```
 
 You can run the `vertexml.ipynb` as an example.
