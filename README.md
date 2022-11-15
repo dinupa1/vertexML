@@ -22,6 +22,6 @@ conda activate vertexML
 
 You can run the `vertexml.ipynb` as an example.
 
-![z vertex position prediction](imgs/z [cm].png)
+![z vertex position prediction](imgs/z[cm].png)
 
 ![z resolution](imgs/z.png)
