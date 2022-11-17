@@ -10,6 +10,18 @@ X = [charge, station1[x, y, z], station1[x, y, z], station3[px, py, pz], station
 y = [vertex[x, y, z, px, py, pz]]
 ```
 
+## Neural Network Architecture
+
+```
+* * * * * *     * * * * * * * * * * * * * * *     * * * * * * * * * * * * * * *     * * * * * *
+* Input   *     * Classification Layer      *     * Regression layer          *     *         *
+* Tensor  * --> * 2 Linear hidden layers    * --> * 3 Linear hidden layers    * --> * Target  *
+*         *     * ReLu activation function  *     * ReLu activation function  *     * Tensor  *
+* * * * * *     * CrossEntropyLoss          *     * MSELoss                   *     * * * * * *
+                * Adam optimizer            *     * Adam optimizer            *
+                * * * * * * * * * * * * * * *     * * * * * * * * * * * * * * *
+```
+
 ### Testing This Module
 
 It is highly recommended to use the [`conda`](https://github.com/conda-forge/miniforge) environment to test this module.
