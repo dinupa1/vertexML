@@ -1,5 +1,6 @@
 .DS_Store
 .idea/
+imgs/
 .ipynb_checkpoints/
 slides/vertexMLP-10-11-2022.aux
 slides/vertexMLP-10-11-2022.out
@@ -45,3 +46,10 @@ dim_tree.*
 output.*
 slides/vertexMLP-11-10-2022.*
 slides/vertexMLP-11-15-2022.*
+slides/dimuDNN-11-17-2022.aux
+slides/dimuDNN-11-17-2022.log
+slides/dimuDNN-11-17-2022.nav
+slides/dimuDNN-11-17-2022.out
+slides/dimuDNN-11-17-2022.snm
+slides/dimuDNN-11-17-2022.toc
+slides/dimuDNN-11-17-2022.vrb
