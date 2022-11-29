@@ -1,0 +1,208 @@
+% author Dinupa Nawarathne
+% email dinupa3@gmail.com
+% date 10-11-2022
+
+\documentclass[10pt, xcolor={dvipsnames}, aspectratio = 169, sans,mathserif]{beamer}
+
+%
+% packages
+%
+\usepackage{fontspec}
+\usepackage{fontawesome5}
+\usepackage{mathrsfs}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage[absolute,overlay]{textpos}
+\usepackage[font=tiny]{caption}
+
+
+%
+% customization
+%
+\mode<presentation>
+{
+\usefonttheme{serif}
+\setmainfont{JetBrains Mono}
+% custom colors
+\definecolor{nmsured}{RGB}{137,18,22}
+% custom fonts
+\setbeamercolor{title}{bg=White,fg=nmsured}
+\setbeamercolor{frametitle}{bg=White,fg=nmsured}
+\setbeamercolor{section number projected}{bg=nmsured,fg=White}
+\setbeamercolor{subsection number projected}{bg=nmsured,fg=White}
+\setbeamertemplate{items}{\color{nmsured}{\faAngleDoubleRight}}
+\setbeamertemplate{section in toc}[square]
+\setbeamertemplate{subsection in toc}[square]
+\setbeamertemplate{footline}[frame number]
+\setbeamertemplate{caption}[numbered]
+\setbeamerfont{footnote}{size=\tiny}
+\setbeamercovered{invisible}
+\usefonttheme{professionalfonts}
+% set background
+\setbeamertemplate{background}[grid][color=nmsured!15]
+}
+
+%
+% title, author, date
+%
+\title{Dimuon Properties for Perfect Events}
+
+\author{Dinupa}
+
+\date{NMSU Update
+\\ \today}
+
+
+%
+% some custom commands
+%
+\newcommand{\leftpic}[2]
+{
+\begin{textblock}{7.0}(0.5, 1.5)
+\begin{figure}
+    \centering
+    \includegraphics[width=7.0cm]{../imgs/#1.png}
+    \caption{#2}
+\end{figure}
+\end{textblock}
+}
+
+\newcommand{\rightpic}[2]
+{
+\begin{textblock}{7.0}(8.0, 1.5)
+\begin{figure}
+    \centering
+    \includegraphics[width=7.0cm]{../imgs/#1.png}
+    \caption{#2}
+\end{figure}
+\end{textblock}
+}
+
+
+\begin{document}
+
+% make title page
+\begin{frame}
+    \maketitle
+\end{frame}
+
+
+%% slide 1
+\begin{frame}[fragile]{Neural Network Architecture}
+
+\begin{textblock}{14.0}(0.5, 2.0)
+\begin{itemize}
+
+    \item We use the same neural network architechture used in single tracks to extract the dimuon properties.
+    
+    \begin{itemize}
+    
+    \item We use classification layer and regression layer;
+    
+        \begin{scriptsize}
+        \begin{verbatim}
+        
+* * * * * *     * * * * * * * * * * * * * * *     * * * * * * * * * * * * * * *     * * * * * *
+* Input   *     * Classification Layer      *     * Regression layer          *     *         *
+* Tensor  * --> * 2 Linear hidden layers    * --> * 3 Linear hidden layers    * --> * Target  *
+*         *     * ReLu activation function  *     * ReLu activation function  *     * Tensor  *
+* * * * * *     * CrossEntropyLoss          *     * MSELoss                   *     * * * * * *
+                * Adam optimizer            *     * Adam optimizer            *
+                * * * * * * * * * * * * * * *     * * * * * * * * * * * * * * *
+
+Learning rate: 0.0001
+L2 Regularization: 0.00001
+        
+        \end{verbatim}
+        \end{scriptsize}
+        
+        \item We have to change the input \& output tensor features;
+        
+        \begin{scriptsize}
+        \begin{verbatim}
+For dimuons the input is;
+        
+[mu[/+, -/], station1[/x, y, z/], station3[/x, y, z/], station1[/px, py, pz], station3[/px, py, pz/]]
+        
+Target is;
+        
+[dimuon[/x, y, z, px, py, pz, m/]]
+        \end{verbatim}
+        \end{scriptsize}
+    
+    \end{itemize}
+
+\end{itemize}
+\end{textblock}
+
+\end{frame}
+
+%% slide 2
+\begin{frame}{Classification and Regression Loss}
+
+\leftpic{cls-loss}{Train, validation classification loss and accuracy score.}
+
+\rightpic{reg-loss}{Train , validation regression loss.}
+
+\end{frame}
+
+
+%% slide 3
+\begin{frame}{Dimuon Properties}
+
+\leftpic{px[GeV]}{Dimuon px.}
+
+\rightpic{py[GeV]}{Dimuon py.}
+
+\end{frame}
+
+
+%% slide 4
+\begin{frame}{Dimuon Properties}
+
+\leftpic{pz[GeV]}{Dimuon pz.}
+
+\rightpic{z[cm]}{Dimuon z.}
+
+\end{frame}
+
+%% slide 5
+\begin{frame}{Dimuon Properties}
+
+\leftpic{x[cm]}{Dimuon x.}
+
+\rightpic{y[cm]}{Dimuon y.}
+
+\end{frame}
+
+%% slide 6
+\begin{frame}{Dimuon Properties}
+
+\leftpic{mass[GeV]}{Dimuon mass.}
+
+\rightpic{x1}{Dimuon x1.}
+
+\end{frame}
+
+%% slide 7
+\begin{frame}{Dimuon Properties}
+
+\leftpic{x2}{Dimuon x2.}
+
+\rightpic{xF}{Dimuon xF.}
+
+\end{frame}
+
+\begin{frame}{Other}
+
+\begin{itemize}
+
+\item 
+
+\end{itemize}
+
+\end{frame}
+
+
+\end{document}

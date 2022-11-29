@@ -16,7 +16,7 @@ For dimuons;
 
 For dimuons the input is;
 
-[mu[/+, -/], station1[/x, y, z/], station3[/x, y, z/], station1[/px, py, pz], station3[/px, py, pz/]]
+[mu[/+, -/], station1[/x, y, z/], station3[/x, y, z/], station1[/px, py, pz/], station3[/px, py, pz/]]
 
 Target is;
 
