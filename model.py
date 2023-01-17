@@ -25,17 +25,13 @@ class vertexReg(torch.nn.Module):
         self.fc1 = torch.nn.Linear(in_features, hidden_dim, bias=True)
         self.fc2 = torch.nn.Linear(hidden_dim, hidden_dim, bias=True)
         self.fc3 = torch.nn.Linear(hidden_dim, hidden_dim, bias=True)
-        # self.fc4 = torch.nn.Linear(hidden_dim, hidden_dim, bias=True)
-        self.fc5 = torch.nn.Linear(hidden_dim, out_features, bias=True)
+        self.fc4 = torch.nn.Linear(hidden_dim, out_features, bias=True)
         
     def forward(self, x):
         x = F.relu(self.fc1(x))
         x = F.relu(self.fc2(x))
         x = F.relu(self.fc3(x))
-        # x = F.relu(self.fc4(x))
-        # x = F.relu(self.fc5(x))
-        # x = F.relu(self.fc5(x))
-        x = F.relu(self.fc5(x))
+        x = self.fc4(x)
         return x
     
 
@@ -85,46 +81,47 @@ class vertexMLP(torch.nn.Module):
         
     def forward(self, x):
         pred_hotid = self.fc1(x)
-        pred_vert = self.fc2(torch.cat([x, pred_hotid], axis=-1))
+        y = torch.argmax(pred_hotid, dim=-1).squeeze()
+        y = F.one_hot(y, num_classes=5).float()
+        pred_vert = self.fc2(torch.cat([x, y], axis=-1))
         return pred_hotid, pred_vert
+    
 
-
-class dimDNN(torch.nn.Module):
-    def __init__(self, in_features: int=26, num_classes: int=5, dim_features: int=7, hidden_dim: int=32):
-        super(dimDNN, self).__init__()
-        self.fc1 = torch.nn.Sequential(
+class dimuNet(torch.nn.Module):
+    def __init__(self, in_features: int=26, num_classes: int=5, out_features: int=7, hidden_dim=50):
+        super(dimuNet, self).__init__()
+        self.tagger = torch.nn.Sequential(
             torch.nn.Linear(in_features, hidden_dim, bias=True),
-            torch.nn.BatchNorm1d(hidden_dim),
+            # torch.nn.BatchNorm1d(hidden_dim),
+            torch.nn.ReLU(),
+            torch.nn.Linear(hidden_dim, 30, bias=True),
+            # torch.nn.BatchNorm1d(hidden_dim),
+            torch.nn.ReLU(),
+            torch.nn.Linear(30, 15, bias=True),
+            # torch.nn.BatchNorm1d(hidden_dim),
+            torch.nn.ReLU(),
+            torch.nn.Linear(15, num_classes, bias=True),
             torch.nn.ReLU()
+            # torch.nn.Softmax(dim=-1)
         )
         
-        self.fc2 = torch.nn.Sequential(
-            torch.nn.Linear(hidden_dim, num_classes, bias=True),
-            torch.nn.BatchNorm1d(num_classes),
-            torch.nn.ReLU()
-        )
-        
-        self.fc3 = torch.nn.Sequential(
+        self.regressor = torch.nn.Sequential(
             torch.nn.Linear(in_features+num_classes, hidden_dim, bias=True),
-            torch.nn.BatchNorm1d(hidden_dim),
-            torch.nn.ReLU()
-        )
-            
-        self.fc4 = torch.nn.Sequential(
-            torch.nn.Dropout(0.2),
-            torch.nn.Linear(hidden_dim, hidden_dim, bias=True),
-            torch.nn.ReLU()
-        )
-        
-        self.fc5 = torch.nn.Sequential(
-            torch.nn.Linear(hidden_dim, dim_features, bias=True),
-            torch.nn.ReLU()
+            # torch.nn.BatchNorm1d(hidden_dim),
+            torch.nn.ReLU(),
+            # torch.nn.Dropout(0.4),
+            torch.nn.Linear(hidden_dim, 30, bias=True),
+            torch.nn.ReLU(),
+            # torch.nn.Dropout(0.1),
+            torch.nn.Linear(30, 15, bias=True),
+            torch.nn.ReLU(),
+            torch.nn.Linear(15, out_features, bias=True)
         )
         
+    
     def forward(self, x):
-        out = self.fc1(x)
-        pred_id = self.fc2(out)
-        out = self.fc3(torch.cat([x, pred_id], axis=-1))
-        out = self.fc4(out)
-        pred_feat = self.fc5(out)
-        return pred_id, pred_feat
+        pred_hotid = self.tagger(x)
+        y = torch.argmax(pred_hotid, dim=-1).squeeze()
+        y = F.one_hot(y, num_classes=5).float()
+        pred_dim = self.regressor(torch.cat([x, y], axis=-1))
+        return pred_hotid, pred_dim
