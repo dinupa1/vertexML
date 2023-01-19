@@ -1,0 +1,227 @@
+% dinupa3@gmail.com
+% 01-18-2023
+%
+
+\documentclass[12pt, xcolor={dvipsnames}, aspectratio = 169, sans,mathserif]{beamer}
+
+
+\usepackage{fontspec}
+\usepackage{fontawesome5}
+\usepackage{mathrsfs}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage[absolute,overlay]{textpos}
+\usepackage[font=tiny]{caption}
+
+
+\mode<presentation>
+{
+\usefonttheme{serif}
+\setmainfont{JetBrains Mono}
+\definecolor{nmsured}{RGB}{137,18,22} % custom colors
+\setbeamercolor{title}{bg=White,fg=nmsured}
+\setbeamercolor{frametitle}{bg=White,fg=nmsured}
+\setbeamercolor{section number projected}{bg=nmsured,fg=White}
+\setbeamercolor{subsection number projected}{bg=nmsured,fg=White}
+\setbeamertemplate{items}{\color{nmsured}{\faAngleDoubleRight}}
+\setbeamertemplate{section in toc}[square]
+\setbeamertemplate{subsection in toc}[square]
+\setbeamertemplate{footline}[frame number]
+\setbeamertemplate{caption}[numbered]
+\setbeamerfont{footnote}{size=\tiny}
+\setbeamercovered{invisible}
+\usefonttheme{professionalfonts}
+%\setbeamertemplate{background}[grid][color=nmsured!15] % set background
+\setbeamertemplate{navigation symbols}{} % remove navigation buttons
+}
+
+\title{Deep Neural Network to Extract the Dimuon Properties}
+
+
+\newcommand{\leftpic}[2]
+{
+\begin{textblock}{7.0}(0.5, 1.0)
+\begin{figure}
+    \centering
+    \includegraphics[width=7.0cm]{../imgs/#1.png}
+    \caption{#2}
+\end{figure}
+\end{textblock}
+}
+
+\newcommand{\rightpic}[2]
+{
+\begin{textblock}{7.0}(8.0, 1.0)
+\begin{figure}
+    \centering
+    \includegraphics[width=7.0cm]{../imgs/#1.png}
+    \caption{#2}
+\end{figure}
+\end{textblock}
+}
+
+
+\begin{document}
+
+\begin{frame}
+	\maketitle
+\end{frame}
+
+\begin{frame}[fragile]{Introduction}
+
+\begin{textblock}{15.0}(0.5, 2.0)
+\begin{itemize}
+
+	\item We use the reconstructed single track information of the Drell-Yan events to train the neural network.
+
+	\item Input tensor features: charge, position at station 1 drift chambers, momentum at station 1, position at station 3, momentum at station 3.
+
+	\item Target tensor features: dimuon vertex position, dimuon vertex momentum and dimuon mass.
+
+	\item Data set was split to train: validate: test = 60: 20: 20.
+
+	\item Our main goal is to train the neural network to extract the dimuon vertex information.
+
+\end{itemize}
+\end{textblock}
+
+\end{frame}
+
+\begin{frame}[fragile]{Neural Network Architecture}
+
+\begin{textblock}{15.0}(0.5, 2.0)
+\begin{itemize}
+
+	\item Feed-forward deep neural network witch contains 2 blocks. Classification block will try to identify the origin of the tracks and regression block will try to extract the dimuon features.
+
+	\item Classification block;
+
+	\begin{itemize}
+
+		\item Contain 2 hidden linear layers.
+
+		\item In the forward pass all the layers are activated by the \verb|ReLu| activation function.
+
+		\item In the back propagation loss is calculated by \verb|CrossEntropyLoss|.
+
+	\end{itemize}
+
+	\item Regression block;
+
+	\begin{itemize}
+
+		\item Contains 2 hidden linear layers.
+
+		\item In the forward pass all the layers are activated by the \verb|ReLu| activation function.
+
+		\item In the back propagation loss is calculated by \verb|MSELoss|.
+
+	\end{itemize}
+
+\end{itemize}
+\end{textblock}
+
+\end{frame}
+
+\begin{frame}[fragile]
+
+\leftpic{dimuNet}{Neural network architecture.}
+
+\begin{textblock}{15.0}(0.5, 9.0)
+
+\begin{itemize}
+
+	\item Total loss is calculated;
+
+\begin{verbatim}
+total loss = loss clas. + alpha * loss reg.
+\end{verbatim}
+
+\verb|alpha| is a non trainable hyper parameter.
+
+	\item We use the batch training to train the neural network with batch side = 64 for 200 epochs.
+
+\end{itemize}
+
+\end{textblock}
+
+\begin{textblock}{7.0}(8.0, 1.0)
+
+\begin{itemize}
+
+	\item Total trainable parameters = 10902 and training data size = 1519596. Rule of thumb training data size = 10* total trainable parameters.
+
+\end{itemize}
+
+\end{textblock}
+
+\end{frame}
+
+\begin{frame}{Loss Curves}
+
+\leftpic{cls-loss}{Classification loss for each epoch.}
+
+\rightpic{reg-loss}{Regression loss for each epoch.}
+
+\end{frame}
+
+\begin{frame}{Classification}
+
+\leftpic{cls-hot-id}{Prediction of the classification.}
+
+\begin{textblock}{7.0}(8.0, 2.0)
+
+\begin{itemize}
+
+	\item Tracks are coming from colimeter(id = 0), target (id = 2) and beam dump (id = 4) are predicted well. But tracks are coming from air (id = 1 and 3) region has a bad prediction.
+
+\end{itemize}
+
+\end{textblock}
+
+\end{frame}
+
+\begin{frame}{Predictions}
+
+\leftpic{z[cm]}{z vertex position.}
+
+\rightpic{x[cm]}{x vertex position.}
+
+\end{frame}
+
+\begin{frame}
+
+\leftpic{y[cm]}{y vertex position.}
+
+\rightpic{px[GeV]}{px at the vertex.}
+
+\end{frame}
+
+\begin{frame}
+
+\leftpic{py[GeV]}{py vertex position.}
+
+\rightpic{pz[GeV]}{pz at the vertex.}
+
+\end{frame}
+
+\begin{frame}
+
+\leftpic{mass[GeV]}{dimuon mass.}
+
+\begin{textblock}{7.0}(8.0, 2.0)
+
+\begin{itemize}
+
+	\item Since tracks are unique we can use the constitutional neural network for the classification. But even with the input channel = 1, CNN fails the classification.
+
+	\item Batch normalization and Dropout layers also reduce the accuracy of the results (some how ?)
+
+\end{itemize}
+
+\end{textblock}
+
+\end{frame}
+
+\end{document}
