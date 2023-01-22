@@ -21,3 +21,7 @@ slides/vertexMLP-11-15-2022.*
 slides/dimuDNN-12-01-2022.*
 slides/dimuDNN-12-08-2022.*
 slides/dimuDNN-12-20-2022.*
+__pycache__/
+conv_test.py
+playground-dev.ipynb
+slides/dimuDNN-01-21-2023.tex
